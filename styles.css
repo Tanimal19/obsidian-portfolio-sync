@@ -1,0 +1,50 @@
+.portfolio-sync-embed {
+  border: 1px dashed var(--background-modifier-border);
+  border-left: 3px solid var(--interactive-accent);
+  border-radius: var(--radius-m);
+  padding: var(--size-4-3) var(--size-4-4);
+  background: var(--background-secondary);
+  font-size: var(--font-ui-small);
+}
+
+.portfolio-sync-embed.is-error {
+  border-left-color: var(--text-error);
+  color: var(--text-error);
+}
+
+.portfolio-sync-embed-header {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+}
+
+.portfolio-sync-embed-label {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--font-ui-smaller);
+}
+
+.portfolio-sync-embed-props {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--size-2-1) var(--size-4-3);
+  margin: var(--size-4-2) 0 0;
+}
+
+.portfolio-sync-embed-props dt {
+  color: var(--text-muted);
+  font-family: var(--font-monospace);
+}
+
+.portfolio-sync-embed-props dd {
+  margin: 0;
+  font-family: var(--font-monospace);
+  word-break: break-word;
+}
+
+.portfolio-sync-embed-fallback {
+  margin: var(--size-4-2) 0 0;
+  color: var(--text-muted);
+  font-style: italic;
+}

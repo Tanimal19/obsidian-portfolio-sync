@@ -1,0 +1,17 @@
+{
+  "name": "obsidian-portfolio-sync",
+  "version": "0.1.0",
+  "private": true,
+  "description": "One-way sync of selected Obsidian notes and their attachments into a portfolio repo.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit && node esbuild.config.mjs production"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "esbuild": "0.28.2",
+    "obsidian": "1.13.1",
+    "typescript": "5.9.3"
+  }
+}
