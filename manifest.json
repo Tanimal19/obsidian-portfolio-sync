@@ -1,7 +1,7 @@
 {
   "id": "portfolio-sync",
   "name": "Portfolio Sync",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "minAppVersion": "1.11.0",
   "description": "One-way sync of selected notes and their attachments into a portfolio repo.",
   "author": "Bob",

@@ -1,6 +1,6 @@
 {
   "name": "obsidian-portfolio-sync",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "One-way sync of selected Obsidian notes and their attachments into a portfolio repo.",
   "main": "main.js",
