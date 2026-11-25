@@ -2,6 +2,7 @@ import { App, TFile, parseLinktext } from "obsidian";
 import { createHash } from "crypto";
 import { promises as fs } from "fs";
 import * as path from "path";
+import { isInFolders } from "./settings";
 import { CONFIG_FILE, ManifestEntry, RefTarget, SyncConfig, SyncManifest, SyncReport } from "./types";
 
 const SLUG_RE = /^[\p{L}\p{N}_][\p{L}\p{M}\p{N}_-]*$/u;
@@ -48,6 +49,7 @@ export class PortfolioSyncer {
   constructor(
     private readonly app: App,
     private readonly repoPath: string,
+    private readonly ignoredFolders: string[] = [],
   ) {}
 
   syncAll(): Promise<SyncReport> {
@@ -112,7 +114,9 @@ export class PortfolioSyncer {
     return report;
   }
 
+  /** Notes in ignored folders count as unpublished, so their earlier output is cleaned up like an unpublish. */
   private collectionOf(file: TFile, config: SyncConfig): string | null {
+    if (isInFolders(file.path, this.ignoredFolders)) return null;
     const value = this.app.metadataCache.getFileCache(file)?.frontmatter?.[config.frontmatter.collection];
     return typeof value === "string" && value.trim() ? value.trim() : null;
   }

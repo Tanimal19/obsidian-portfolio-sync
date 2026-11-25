@@ -88,7 +88,7 @@ export default class PortfolioSyncPlugin extends Plugin {
       try {
         const repoPath = resolveRepoPath(this.app, this.settings.repoPath);
         if (!repoPath) throw new SyncError("set the portfolio repo path in the plugin settings");
-        const report = await task(new PortfolioSyncer(this.app, repoPath));
+        const report = await task(new PortfolioSyncer(this.app, repoPath, this.settings.ignoredFolders));
         if (report) this.notify(report, verbose);
       } catch (error) {
         const message = error instanceof SyncError ? error.message : String(error);

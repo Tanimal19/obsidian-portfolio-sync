@@ -1,4 +1,4 @@
-import { App, FileSystemAdapter, PluginSettingTab, Setting } from "obsidian";
+import { App, FileSystemAdapter, PluginSettingTab, Setting, normalizePath } from "obsidian";
 import { existsSync } from "fs";
 import { homedir } from "os";
 import * as path from "path";
@@ -9,12 +9,26 @@ export interface PortfolioSyncSettings {
   /** Portfolio repo (the folder containing obsidian-sync.json): absolute, `~/…`, or relative to the vault root. */
   repoPath: string;
   autoSync: boolean;
+  /** Vault folders whose notes are never synced. */
+  ignoredFolders: string[];
 }
 
 export const DEFAULT_SETTINGS: PortfolioSyncSettings = {
   repoPath: "",
   autoSync: false,
+  ignoredFolders: [],
 };
+
+export function parseFolderList(raw: string): string[] {
+  const folders = raw
+    .split("\n")
+    .map((line) => normalizePath(line.trim()).replace(/^\/+|\/+$/g, ""))
+    .filter((folder) => folder && folder !== ".");
+  return [...new Set(folders)];
+}
+
+export const isInFolders = (filePath: string, folders: string[]) =>
+  folders.some((folder) => filePath === folder || filePath.startsWith(folder + "/"));
 
 /** Returns null when the setting is empty. */
 export function resolveRepoPath(app: App, raw: string): string | null {
@@ -71,6 +85,21 @@ export class PortfolioSyncSettingTab extends PluginSettingTab {
           this.plugin.settings.autoSync = value;
           await this.plugin.saveSettings();
         }),
+      );
+
+    new Setting(containerEl)
+      .setName("Ignored folders")
+      .setDesc(
+        "One vault folder per line (e.g. Template). Notes inside them are never synced, even with a site: property. Run \"Sync all published notes\" after changing this to remove their previous output.",
+      )
+      .addTextArea((text) =>
+        text
+          .setPlaceholder("Template")
+          .setValue(this.plugin.settings.ignoredFolders.join("\n"))
+          .onChange(async (value) => {
+            this.plugin.settings.ignoredFolders = parseFolderList(value);
+            await this.plugin.saveSettings();
+          }),
       );
   }
 }

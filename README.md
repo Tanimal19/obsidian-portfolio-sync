@@ -34,6 +34,8 @@ The manifest stores a sha256 of every file the plugin wrote.
 
 The **Sync on change** setting re-syncs a note about 1.5 s after it changes, is renamed or is deleted. Attachment edits alone aren't detected; run *Sync all*.
 
+The **Ignored folders** setting (one vault folder per line, e.g. `Template`) excludes every note under those folders, even if it has `site:`. An ignored note is treated as unpublished, so its earlier output is removed on the next *Sync all*.
+
 ## Develop
 
 ```sh
